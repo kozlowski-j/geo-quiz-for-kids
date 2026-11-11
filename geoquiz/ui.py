@@ -690,7 +690,7 @@ class App:
         pulse = 0.5 + 0.5 * math.sin(now * 7.0)
         if self.phase == "celebrate":
             self.renderer.draw_highlight(screen, self.flash_areas,
-                                         (46, 204, 130, int(120 + 110 * pulse)), (255, 255, 255), 3)
+                                         (46, 204, 130, int(120 + 110 * pulse)), (20, 160, 95), 3)
             self._draw_rings(self.flash_areas, (30, 180, 110), pulse)
             self._draw_pin(now)
         elif rnd.hint_active:
