@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World Explorer - a geography quiz for kids</title>
+<meta name="description" content="A free geography game for young children: a spoken task, a world map, and a click. Countries, animals and famous places, in English and Polish.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #24304e; --soft: #6e7a96; --blue: #4a89ff; --green: #2ec482;
+    --orange: #ff9843; --pink: #f06292; --sky-top: #b2e0f7; --sky-bottom: #92cdf0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; color: var(--ink); background: #f4f9fd;
+    font-family: Nunito, "Segoe UI", system-ui, sans-serif; font-weight: 600; line-height: 1.55;
+  }
+  a { color: var(--blue); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  header { background: linear-gradient(var(--sky-top), var(--sky-bottom)); padding: 56px 0 0; text-align: center; }
+  h1 { font-size: clamp(2.4rem, 7vw, 4.2rem); font-weight: 800; margin: 0; letter-spacing: -0.01em; }
+  .tagline { font-size: clamp(1.1rem, 2.6vw, 1.4rem); color: #3d4c70; max-width: 40rem; margin: 14px auto 28px; }
+  .buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .button {
+    display: inline-block; padding: 15px 30px; border-radius: 999px; color: #fff; text-decoration: none;
+    font-weight: 800; font-size: 1.1rem; box-shadow: 0 6px 16px rgba(20, 40, 80, .22); transition: transform .12s;
+  }
+  .button:hover { transform: translateY(-2px); }
+  .button.green { background: var(--green); }
+  .button.white { background: #fff; color: var(--ink); }
+  .note { font-size: .92rem; color: #3d4c70; margin: 14px 0 0; }
+  .hero { display: block; width: min(880px, 100%); margin: 36px auto 0; border-radius: 22px 22px 0 0;
+          box-shadow: 0 -4px 30px rgba(20, 40, 80, .22); }
+
+  section { padding: 56px 0; }
+  h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 800; text-align: center; margin: 0 0 30px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+  .card { background: #fff; border-radius: 22px; padding: 22px 24px; box-shadow: 0 4px 18px rgba(20, 40, 80, .08); }
+  .card h3 { margin: 0 0 6px; font-weight: 800; font-size: 1.15rem; }
+  .card p { margin: 0; color: var(--soft); }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 8px; }
+
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  figure { margin: 0; background: #fff; border-radius: 22px; overflow: hidden; box-shadow: 0 4px 18px rgba(20, 40, 80, .1); }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { padding: 12px 18px 16px; color: var(--soft); }
+
+  .steps { background: #fff; }
+  ol { max-width: 44rem; margin: 0 auto; padding-left: 1.4rem; }
+  ol li { margin-bottom: 10px; }
+  code { background: #eef3fa; border-radius: 6px; padding: 2px 7px; font-size: .95em; }
+  .warn { max-width: 44rem; margin: 22px auto 0; background: #fff6e8; border-radius: 16px; padding: 14px 18px; color: #6b4a14; }
+
+  footer { padding: 34px 0 46px; color: var(--soft); font-size: .92rem; text-align: center; }
+  footer p { margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>World Explorer</h1>
+    <p class="tagline">A geography game for young children. The game asks out loud, the child clicks the map. Nobody can lose.</p>
+    <div class="buttons">
+      <a class="button green" href="https://github.com/kozlowski-j/geo-quiz-for-kids/releases/latest/download/WorldExplorer.exe">Download for Windows</a>
+      <a class="button white" href="https://github.com/kozlowski-j/geo-quiz-for-kids">Source code on GitHub</a>
+    </div>
+    <p class="note">Free and open source. Works offline. English and Polish.</p>
+    <img class="hero" src="images/question-picture.png" alt="The game asking where the Eiffel Tower is, with a photo of the tower over a world map">
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>What is in it</h2>
+    <div class="cards">
+      <div class="card"><h3><span class="dot" style="background:var(--green)"></span>147 questions</h3>
+        <p>Countries, continents, oceans, mountains and rivers, on three levels from easy to tricky.</p></div>
+      <div class="card"><h3><span class="dot" style="background:var(--orange)"></span>46 animals</h3>
+        <p>"Where do giraffes live?" Every animal comes with a photo; any place it really lives counts.</p></div>
+      <div class="card"><h3><span class="dot" style="background:var(--pink)"></span>30 famous places</h3>
+        <p>The pyramids, the Eiffel Tower, Machu Picchu, Wawel Castle. A pin shows the exact spot once found.</p></div>
+      <div class="card"><h3><span class="dot" style="background:var(--blue)"></span>A real voice</h3>
+        <p>Every question and every answer is spoken, in English or Polish. Pick the language with a flag.</p></div>
+      <div class="card"><h3><span class="dot" style="background:var(--green)"></span>Gentle hints</h3>
+        <p>A wrong click names what was clicked. After two misses a box shows where to look; after three the answer glows.</p></div>
+      <div class="card"><h3><span class="dot" style="background:var(--orange)"></span>A collection to fill</h3>
+        <p>The game counts what has been found so far: countries 12 of 40, animals 3 of 46, and so on.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2>How it looks</h2>
+    <div class="shots">
+      <figure><img src="images/menu.png" alt="Start screen with three level buttons, two language flags and the collection counters" loading="lazy">
+        <figcaption>Three levels, two languages, and the collection so far.</figcaption></figure>
+      <figure><img src="images/found.png" alt="France highlighted in green with a pin on Paris and confetti" loading="lazy">
+        <figcaption>Found it: the country flashes green and a pin marks the place.</figcaption></figure>
+      <figure><img src="images/search-box.png" alt="A framed box with four arrows around the region to search in" loading="lazy">
+        <figcaption>After two wrong clicks, a box shows where to look.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="wrap">
+    <h2>How to play</h2>
+    <ol>
+      <li>Download <code>WorldExplorer.exe</code> and start it. There is nothing to install.</li>
+      <li>Choose a language with the flags and pick a level.</li>
+      <li>Listen to the question (it is also written at the top) and click the map. The mouse wheel zooms, dragging moves the map.</li>
+      <li>A round is ten questions. Press Esc to quit at any time.</li>
+    </ol>
+    <p class="warn">The program is not signed, so Windows may show a "Windows protected your PC" notice or an antivirus warning the first time. Choose "More info" and "Run anyway" if you trust it, or run the game from the source code instead: the steps are in the
+      <a href="https://github.com/kozlowski-j/geo-quiz-for-kids#setup">README</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Map data: Natural Earth (public domain). Font: Nunito (SIL Open Font License).</p>
+    <p>Photos: Wikimedia Commons contributors, see the
+      <a href="https://github.com/kozlowski-j/geo-quiz-for-kids/blob/master/data/pictures/CREDITS.md">picture credits</a>.
+      Voices generated with ElevenLabs.</p>
+    <p>Code under the MIT licence.</p>
+  </div>
+</footer>
+
+</body>
+</html>
