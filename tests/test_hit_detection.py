@@ -155,6 +155,18 @@ def test_johannesburg_is_south_africa_not_lesotho(world):
     assert name_of(world.country_at(*JOHANNESBURG)) == "country:South Africa"
 
 
+def test_distance_from_inside_a_hole_is_to_the_edge_of_the_hole(world):
+    """From the middle of Lesotho, South Africa is about 60 km away in every
+    direction, not the 250 km to its outer border."""
+    south_africa = world.find("country:South Africa")
+    assert not south_africa.contains(*LESOTHO)
+    assert 20 < south_africa.distance_km(*LESOTHO) < 120
+    assert south_africa.distance_km(*LESOTHO, 1000) == pytest.approx(south_africa.distance_km(*LESOTHO))
+    # In step with the distance in degrees, which always looked at the hole.
+    assert south_africa.distance_km(*LESOTHO) == pytest.approx(
+        south_africa.distance_deg(*LESOTHO) * 111.2, rel=0.2)
+
+
 def test_all_around_lesotho_is_south_africa(world):
     south_africa = world.find("country:South Africa")
     for lon, lat in [(28.2, -28.2), (28.2, -31.0), (26.5, -29.6), (29.8, -29.6)]:
@@ -429,13 +441,6 @@ def test_mediterranean_is_a_sea(world):
     assert not med.contains(*MID_ATLANTIC)
 
 
-def test_thing_at_gives_country_on_land_and_water_at_sea(world):
-    assert name_of(world.thing_at(*PARIS)) == "country:France"
-    assert name_of(world.thing_at(*LESOTHO)) == "country:Lesotho"
-    assert name_of(world.thing_at(*CARIBBEAN)) == "sea:Caribbean Sea"
-    assert name_of(world.thing_at(*MID_ATLANTIC)) == "ocean:Atlantic Ocean"
-
-
 def test_lake_victoria(world):
     lake = world.find("lake:Lake Victoria")
     assert lake.contains(33.0, -1.0)
@@ -449,15 +454,38 @@ def test_sahara_region(world):
     assert not sahara.contains(25.0, -5.0)  # Congo
 
 
-# ---- hit_any ----------------------------------------------------------------------------
-def test_hit_any_prefers_an_exact_hit_over_a_near_miss(world):
+# ---- Round.judge: the one place that decides what a click means ---------------------------
+def test_judge_prefers_an_exact_hit_over_a_near_miss(world):
     france = world.find("country:France")
-    belgium = world.find("country:Belgium")
-    # Central Belgium is within a generous tolerance of France, listed first.
-    assert world.hit_any([france, belgium], *BELGIUM, 3.0) is belgium
-    assert world.hit_any([france], *BELGIUM, 3.0) is france
-    assert world.hit_any([france], *BELGIUM) is None
-    assert world.hit_any([france, belgium], *MID_ATLANTIC, 3.0) is None
+    luxembourg = world.find("country:Luxembourg")
+    # Luxembourg is tiny, so at this zoom a click in it is within 15 px of France,
+    # which is listed first. The country actually clicked must still win.
+    refs = ["country:France", "country:Luxembourg"]
+    rnd = T.Round(world, [T.Task("t", "country", "Find it.", refs, 2, [france, luxembourg])])
+    lon, lat = 6.1, 49.75
+    assert luxembourg.contains(lon, lat)
+    assert france.hit(lon, lat, T.CLICK_TOLERANCE_PX / 5.0)
+    kind, hit, clicked = rnd.judge(lon, lat, 5.0)
+    assert (kind, hit, clicked) == ("correct", luxembourg, luxembourg)
+
+
+def test_judge_changes_nothing_and_agrees_with_click(world, px):
+    france = world.find("country:France")
+    rnd = T.Round(world, [T.Task("t", "country", "Find France.", ["country:France"], 1, [france])])
+    for point, expected in ((BELGIUM, "close"), (MID_ATLANTIC, "wrong"), (PARIS, "correct")):
+        kind, hit, clicked = rnd.judge(*point, px)
+        assert kind == expected
+        assert (hit is france) == (expected == "correct")
+        assert (rnd.wrong_attempts, rnd.solved, rnd.zone) == (0, False, None)  # judging is free
+    assert rnd.judge(*BELGIUM, px)[2] is world.find("country:Belgium")
+    assert rnd.judge(*MID_ATLANTIC, px)[2] is None  # only countries; the sea is named by click()
+    for point in (BELGIUM, MID_ATLANTIC, PARIS):
+        assert rnd.click(*point, px).kind == rnd_kind(world, france, point, px)
+
+
+def rnd_kind(world, target, point, px):
+    fresh = T.Round(world, [T.Task("t", "country", "Find it.", [target.id], 1, [target])])
+    return fresh.judge(*point, px)[0]
 
 
 # ---- click tolerance rules ----------------------------------------------------------------

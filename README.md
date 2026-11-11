@@ -33,29 +33,30 @@ or [Building the .exe](#building-the-exe) for a single-file build.
   a click while the large photo is up just puts it away.
 - For a famous place the answer is the country it is in. When it is found
   (or shown), a pin marks the exact spot.
-- Click the right place: it flashes green, the game praises him and moves on
+- Click the right place: it flashes green, the game praises the child and moves on
   to the next task.
 - Click the wrong place: the game says "close" (the clicked country borders
   the answer, or the click was within about 1000 km of it) or "not quite",
-  followed by the name of what he clicked ("That is Spain.").
+  followed by the name of what was clicked ("That is Spain.").
 - After 2 misses a box with four arrows pointing at its edges appears on the
   map: the answer is somewhere inside it. The box is larger than the answer
   and off-centre, so it narrows the search without giving it away.
-- After 3 misses the answer starts to glow and the game asks him to click it.
+- After 3 misses the answer starts to glow and the game asks the child to click it.
   From then on a wrong click only names what was clicked.
 - A task earns one star if it was found before the answer had to be shown.
   The stars are counted up at the end of the round, and the best score per
   level is shown on the start screen.
-- The start and end screens show his collection: how many countries,
+- The start and end screens show the child's collection: how many countries,
   continents, waters (oceans, seas, rivers, lakes), mountains, places
-  (deserts, islands, regions), landmarks and animals he has found so far,
+  (deserts, islands, regions), landmarks and animals have been found so far,
   out of all there are in the game, for example "Countries 12/40". A task counts as
-  found once he has found it before the answer had to be shown, and it stays
+  found once the child has found it before the answer had to be shown, and it stays
   found for good. The collection is shared by both languages.
 - Buttons on the play screen: **Menu** (back to the level choice), **Repeat**
   (says the task again), **Whole map** (resets zoom and pan), **+** / **-**
   (zoom).
-- The mouse wheel zooms at the cursor, dragging pans the map.
+- The mouse wheel zooms at the cursor, dragging pans the map. A click during
+  which the mouse slips a little still counts as a click.
 - Esc quits at any time. There is also a Quit button on the start and end
   screens.
 
@@ -104,7 +105,7 @@ instead (it includes the runtime requirements plus pytest and PyInstaller).
 
 The voice is pre-recorded. Every sentence the game can say (task prompts,
 praise, "That is Germany." for each country and sea, the end-of-round lines:
-477 sentences per language) was generated once with ElevenLabs and is stored
+533 sentences per language) was generated once with ElevenLabs and is stored
 as an mp3 in `data/voice/en/` and `data/voice/pl/`. The game only plays those
 files, so it works offline and needs no account or API key.
 
@@ -227,8 +228,9 @@ Tasks are in `data/tasks.json`:
   1 = continents, oceans and big countries; 2 = more countries, famous places
   and animals; 3 = small countries and tricky places.
 
-Animals are in `data/animals.json`, as a name and the list of areas where
-the animal lives:
+Animals are in `data/animals.json`, as the list of areas where the animal
+lives (`"name"` is only a note for whoever edits the file; the game does not
+read it):
 
 ```json
 "panda": {
@@ -289,7 +291,7 @@ console:
 
 The built .exe has no console, so check edited files with `python main.py`
 (or `python main.py --selftest`, which exits with code 2 if there was any
-problem).
+problem, including a spoken sentence without a voice clip).
 
 A file that is not valid JSON at all (a missing comma, say) is different: the
 game cannot read it and will not start.
@@ -340,15 +342,16 @@ other than English and Polish get a button with the code instead of a flag
 ## Progress
 
 The game keeps `progress.json` next to itself (in the project folder, or next
-to the .exe). It stores, per task, how often he has seen it, how often he
-needed more than one try, and whether he got it wrong the last time; and the
-whether he has ever found it himself (the collection); the best star count
+to the .exe). It stores, per task, how often the child has seen it, how often it
+took more than one try, whether it went wrong the last time, and whether the
+child has ever found it unaided (the collection); the best star count
 per level; and the language chosen on the start screen.
 Deleting the file resets everything.
 
-It is used to pick the 10 tasks of a round: first up to 5 tasks he got wrong
-the last time he saw them, then the ones he has seen least often. If the
-folder is not writable, the file goes to `%APPDATA%\KidsGeoQuiz` instead.
+It is used to pick the 10 tasks of a round: first up to 5 tasks that went
+wrong the last time they came up, then the ones seen least often. If the
+folder is not writable (for example the .exe sits in `Program Files`), the
+file goes to `%APPDATA%\KidsGeoQuiz` instead.
 
 ## Building the .exe
 

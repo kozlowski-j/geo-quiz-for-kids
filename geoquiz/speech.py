@@ -13,7 +13,8 @@ from __future__ import annotations
 
 from collections import deque
 
-from .voice_lines import clip_name, normalise, voice_dir
+from .paths import resource_dirs
+from .voice_lines import VOICE_FOLDER, clip_path, normalise
 
 GAP_MS = 120  # short pause between two sentences spoken in a row
 
@@ -38,7 +39,7 @@ class Speaker:
             import pygame
 
             if not pygame.mixer.get_init():
-                pygame.mixer.init(frequency=44100, size=-16, channels=1, buffer=512)
+                pygame.mixer.init()
             pygame.mixer.set_reserved(1)  # channel 0 belongs to the voice
             self._channel = pygame.mixer.Channel(0)
             self._channel.set_volume(volume)
@@ -55,17 +56,17 @@ class Speaker:
             return
         self.stop()
         self._sounds.clear()
-        self._folder = voice_dir(self.language)
-        count = len(list(self._folder.glob("*.mp3"))) if self._folder.is_dir() else 0
+        folder = f"{VOICE_FOLDER}/{self.language}"
+        count = len({path.name for d in resource_dirs(folder) for path in d.glob("*.mp3")})
         self.available = count > 0
         self.voice_name = f"{count} recorded clips ({self.language})"
-        self.error = "" if count else f"no voice clips in {self._folder}"
+        self.error = "" if count else f"no voice clips in {folder}"
 
     # ---- public API ----------------------------------------------------------
     def say(self, text, interrupt=True):
         """Speak a sentence, or a list of sentences one after the other."""
         parts = [text] if isinstance(text, str) or text is None else list(text)
-        parts = [normalise(p) for p in parts if p and normalise(p)]
+        parts = [p for p in (normalise(p) for p in parts if p) if p]
         if not parts:
             return
         self.history.append(" ".join(parts))
@@ -90,7 +91,6 @@ class Speaker:
         """True while something is being spoken or waiting to be spoken."""
         if not self.available:
             return False
-        self.update()
         return bool(self._queue) or self._channel.get_busy()
 
     def update(self):
@@ -106,18 +106,12 @@ class Speaker:
             self._chained = True
             self._resume_at = None
 
-    def wait_ready(self, timeout=0.0):
-        return True  # nothing to warm up; kept for callers of the old engine
-
-    def shutdown(self):
-        self.stop()
-
     # ---- internals -------------------------------------------------------------
     def _load(self, sentence):
-        name = clip_name(sentence)
+        path = clip_path(self.language, sentence)
+        name = path.name
         if name in self._sounds:
             return self._sounds[name]
-        path = self._folder / name
         sound = None
         if path.exists():
             try:

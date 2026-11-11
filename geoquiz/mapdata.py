@@ -20,7 +20,6 @@ from .paths import resource_path
 
 WORLD_FILE = "data/map/world.json.gz"
 CLOSE_KM = 1000.0
-KINDS = ("country", "continent", "ocean", "sea", "region", "river", "lake")
 
 
 def _ring(flat):
@@ -34,17 +33,15 @@ def _polys(flat_polys):
 class Area:
     """A named, clickable thing on the map: polygons and/or lines."""
 
-    def __init__(self, kind, name, polys=(), lines=(), lo_polys=None, color=0, cls=""):
+    def __init__(self, kind, name, polys=(), lines=(), lo_polys=None, cls=""):
         self.kind = kind
         self.name = name
         self.id = f"{kind}:{name}"
         self.polys = list(polys)
         self.lines = list(lines)
         self.lo_polys = lo_polys if lo_polys is not None else self.polys
-        self.color = color
         self.cls = cls
         self.neighbors = set()  # ids of bordering countries
-        self.continent = ""
         self.poly_boxes = [geo.bbox_of(p[0]) for p in self.polys]
         self.line_boxes = [geo.bbox_of(l) for l in self.lines]
         boxes = self.poly_boxes + self.line_boxes
@@ -107,7 +104,8 @@ class Area:
         if self.contains(lon, lat):
             return 0.0
         best = math.inf
-        shapes = [(p[0], b, True) for p, b in zip(self.polys, self.poly_boxes)]
+        # Every ring counts, holes too: inside a hole the nearest edge is the hole's.
+        shapes = [(ring, b, True) for p, b in zip(self.polys, self.poly_boxes) for ring in p]
         shapes += [(l, b, False) for l, b in zip(self.lines, self.line_boxes)]
         for points, box, closed in shapes:
             if _box_gap_km(box, lon, lat) > min(limit, best):
@@ -139,9 +137,7 @@ class WorldMap:
         self.drawn_rivers = []  # (rank, [line, ...]) for decoration
 
         for c in data["countries"]:
-            area = Area("country", c["name"], _polys(c["polys"]), lo_polys=_polys(c["lo"]),
-                        color=c["color"])
-            area.continent = c["continent"]
+            area = Area("country", c["name"], _polys(c["polys"]), lo_polys=_polys(c["lo"]))
             area.neighbors = {f"country:{n}" for n in c["neighbors"]}
             self._add(area)
             self.areas[f"country:{c['a3']}".lower()] = area  # alias, e.g. country:FRA
@@ -218,23 +214,7 @@ class WorldMap:
                 return o
         return None
 
-    def thing_at(self, lon, lat):
-        """What a child would say they clicked: a country, else a sea/ocean."""
-        return self.country_at(lon, lat) or self.water_at(lon, lat)
-
     # ---- game rules ----------------------------------------------------------
-    def hit_any(self, targets, lon, lat, tolerance_deg=0.0):
-        """The first target hit by the click, or None. Exact hits win over
-        near misses so that a click inside one target is never ambiguous."""
-        for t in targets:
-            if t.contains(lon, lat):
-                return t
-        if tolerance_deg > 0:
-            for t in targets:
-                if t.hit(lon, lat, tolerance_deg):
-                    return t
-        return None
-
     def is_close(self, targets, lon, lat, clicked=None, close_km=CLOSE_KM):
         """A wrong click is 'close' if the clicked country borders a target
         country, or the click is within about ``close_km`` of any target."""

@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from geoquiz.geometry import (  # noqa: E402
-    point_in_polygon, ring_area, ring_centroid, simplify, simplify_ring,
+    bbox_of, point_in_polygon, ring_area, ring_centroid, simplify, simplify_ring,
 )
 
 OUT = ROOT / "data" / "map" / "world.json.gz"
@@ -241,6 +241,21 @@ def simplified(polys, tolerance):
     return out
 
 
+OVERSEAS_GAP_DEG = 25.0  # a piece this far from the mainland is an overseas territory
+
+
+def is_overseas(box, home):
+    """Is a piece of a country too far from its mainland to count for borders?
+
+    Measured as the gap between the two bounding boxes, so a wide mainland
+    cannot push a nearby exclave away: Kaliningrad is 5 degrees from the box
+    of mainland Russia although it is 110 degrees from Russia's Pacific coast.
+    """
+    gap_lon = max(box[0] - home[2], home[0] - box[2], 0.0)
+    gap_lat = max(box[1] - home[3], home[1] - box[3], 0.0)
+    return max(gap_lon, gap_lat) > OVERSEAS_GAP_DEG
+
+
 def build(folder):
     # ---- countries -------------------------------------------------------
     countries = []
@@ -252,7 +267,6 @@ def build(folder):
             "name": COUNTRY_NAMES.get(p["NAME"], p["NAME"]),
             "a3": p["ADM0_A3"],
             "continent": p["CONTINENT"],
-            "color": int(p["MAPCOLOR9"]),
             "polys": polys,
         })
     names = [c["name"] for c in countries]
@@ -261,11 +275,10 @@ def build(folder):
     # Neighbours: Natural Earth borders share their vertices exactly.
     owners = defaultdict(set)
     for i, c in enumerate(countries):
-        home = c["polys"][0][0][0]
+        home = bbox_of(c["polys"][0][0])  # the biggest piece: the mainland
         for poly in c["polys"]:
-            cx, cy = ring_centroid(poly[0])
-            if abs(cx - home[0]) > 60 or abs(cy - home[1]) > 40:
-                continue  # overseas territory (French Guiana does not make Brazil border France)
+            if is_overseas(bbox_of(poly[0]), home):
+                continue  # French Guiana does not make Brazil border France
             for ring in poly:
                 for pt in ring:
                     owners[pt].add(i)
@@ -378,7 +391,7 @@ def build(folder):
     world = {
         "source": "Natural Earth 1:50m (public domain) - naturalearthdata.com",
         "countries": [{
-            "name": c["name"], "a3": c["a3"], "continent": c["continent"], "color": c["color"],
+            "name": c["name"], "a3": c["a3"], "continent": c["continent"],
             "neighbors": sorted(countries[j]["name"] for j in neighbours[i]),
             "polys": flat_polys(c["polys"]),
             "lo": flat_polys(simplified(c["polys"], LOW_DETAIL_TOL)),

@@ -163,7 +163,7 @@ def test_unknown_area_in_the_animal_file_is_reported_and_trimmed(world, tmp_path
     assert tasks[0].areas == [world.find("country:Nepal")]
 
 
-def test_load_animals_returns_names_and_areas(world, tmp_path):
+def test_load_animals_returns_the_areas_of_each_animal(world, tmp_path):
     _, animals_path = write_files(tmp_path, [], {
         "Lion": {"name": "lions", "areas": ["country:Kenya", "country:kenya"]},
         "emu": {"areas": ["country:Australia"]},
@@ -171,8 +171,8 @@ def test_load_animals_returns_names_and_areas(world, tmp_path):
     animals, problems = T.load_animals(world, animals_path)
     assert problems == []
     assert set(animals) == {"lion", "emu"}
-    assert animals["lion"] == {"name": "lions", "areas": [world.find("country:Kenya")]}
-    assert animals["emu"]["name"] == "emu"   # falls back to the key
+    assert animals["lion"] == [world.find("country:Kenya")]   # listed twice, kept once
+    assert animals["emu"] == [world.find("country:Australia")]
 
 
 # ---- load_tasks: validation ------------------------------------------------------------
@@ -417,7 +417,7 @@ def test_progress_file_is_plain_json(tmp_path):
     p.record_round(2, 9)
     p.save()
     data = json.loads(path.read_text(encoding="utf-8"))
-    assert data == {"language": "", "tasks": {"a": {"seen": 1, "missed": 1, "last_missed": True}},
+    assert data == {"version": 1, "language": "", "tasks": {"a": {"seen": 1, "missed": 1, "last_missed": True}},
                     "best": {"2": 9}}
 
 
@@ -436,6 +436,31 @@ def test_progress_without_a_path_does_not_save_anywhere(tmp_path, monkeypatch):
     p.record("a", missed=True)
     p.save()
     assert list(tmp_path.iterdir()) == []
+
+
+def test_progress_path_falls_back_when_the_app_folder_only_looks_writable(tmp_path, monkeypatch):
+    """os.access says yes for Program Files; only really creating a file tells."""
+    from pathlib import Path
+
+    from geoquiz import paths
+
+    app_folder = tmp_path / "app"
+    app_folder.mkdir()
+    monkeypatch.setattr(paths, "app_dir", lambda: app_folder)
+    monkeypatch.setenv("APPDATA", str(tmp_path / "roaming"))
+    assert paths.progress_path() == app_folder / "progress.json"
+    assert list(app_folder.iterdir()) == []              # the probe cleans up after itself
+
+    real_open = paths.os.open
+
+    def refuse(path, *args, **kwargs):
+        if Path(path).parent == app_folder:
+            raise PermissionError(13, "Access is denied")
+        return real_open(path, *args, **kwargs)
+
+    monkeypatch.setattr(paths.os, "open", refuse)
+    assert paths.progress_path() == tmp_path / "roaming" / "KidsGeoQuiz" / "progress.json"
+    assert (tmp_path / "roaming" / "KidsGeoQuiz").is_dir()
 
 
 def test_progress_save_into_a_missing_folder_does_not_raise(tmp_path):

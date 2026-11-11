@@ -17,6 +17,7 @@ ANIMALS_FILE = "data/animals.json"
 
 TASK_TYPES = ("country", "feature", "animal", "landmark")
 ROUND_LENGTH = 10
+SAVE_VERSION = 1            # written to progress.json, for future migrations
 MAX_REVIEW_TASKS = 5        # at most this many "got it wrong last time" tasks per round
 MAX_WRONG_ATTEMPTS = 3      # then the answer is shown
 ZONE_AFTER_WRONG = 2        # after this many misses a box shows where to look
@@ -44,7 +45,7 @@ class Task:
     difficulty: int
     areas: list = field(default_factory=list)  # resolved map areas
     picture: str = ""        # id of a picture in data/pictures (animals and landmarks)
-    pin: tuple = None        # (lon, lat) of the exact spot, shown once it is found
+    pin: tuple | None = None  # (lon, lat) of the exact spot, shown once it is found
 
 
 def task_category(task):
@@ -96,7 +97,7 @@ def search_zone(areas, rng=None):
 
 
 def load_animals(world, path=None):
-    """Returns ({key: {"name": str, "areas": [Area]}}, [problem strings])."""
+    """Returns ({animal: [Area, ...]}, [problem strings])."""
     path = Path(path) if path else resource_path(ANIMALS_FILE)
     problems = []
     with open(path, encoding="utf-8") as fh:
@@ -110,7 +111,7 @@ def load_animals(world, path=None):
                 problems.append(f"animal {key!r}: unknown area {ref!r}")
             elif area not in areas:
                 areas.append(area)
-        animals[key.lower()] = {"name": entry.get("name", key), "areas": areas}
+        animals[key.lower()] = areas
     return animals, problems
 
 
@@ -152,11 +153,10 @@ def load_tasks(world, tasks_path=None, animals_path=None):
         for ref in refs:
             ref = str(ref).strip()
             if ref.lower().startswith("animal:"):
-                animal = animals.get(ref.split(":", 1)[1].strip().lower())
-                if animal is None:
+                found = animals.get(ref.split(":", 1)[1].strip().lower())
+                if found is None:
                     problems.append(f"{label}: unknown animal {ref!r}")
                     continue
-                found = animal["areas"]
             else:
                 area = world.find(ref)
                 if area is None:
@@ -228,11 +228,13 @@ class Progress:
         if missed:
             entry["missed"] = int(entry.get("missed", 0)) + 1
         entry["last_missed"] = bool(missed)
-        if (not missed) if found is None else found:
+        if found is None:
+            found = not missed
+        if found:
             entry["found"] = True  # collected for good
 
     def found(self, task_id):
-        """Has he ever found this one himself? Counts towards the collection."""
+        """Has the child ever found this one unaided? Counts towards the collection."""
         entry = self.tasks.get(task_id)
         if not entry:
             return False
@@ -261,8 +263,8 @@ class Progress:
         try:
             tmp = self.path.with_suffix(".tmp")
             with open(tmp, "w", encoding="utf-8") as fh:
-                json.dump({"language": self.language, "tasks": self.tasks, "best": self.best},
-                          fh, indent=1)
+                json.dump({"version": SAVE_VERSION, "language": self.language,
+                           "tasks": self.tasks, "best": self.best}, fh, indent=1)
             os.replace(tmp, self.path)
         except OSError:
             pass  # read-only folder: the game still works, just forgets
@@ -273,8 +275,8 @@ def select_round(tasks, level, progress=None, rng=None, count=ROUND_LENGTH,
     """Pick the tasks for one round.
 
     * only tasks of the chosen level, never the same task twice;
-    * up to ``max_review`` tasks the child got wrong the last time he saw them;
-    * the rest filled with the tasks he has seen least often, at random;
+    * up to ``max_review`` tasks the child got wrong the last time they came up;
+    * the rest filled with the tasks seen least often, at random;
     * the final order is shuffled.
     """
     rng = rng or random.Random()
@@ -345,24 +347,31 @@ class Round:
     def stars(self):
         return sum(1 for r in self.results if r)
 
+    def judge(self, lon, lat, px_per_deg):
+        """What the rules say about a click here, without changing anything.
+
+        Returns (kind, hit, clicked): kind is "correct", "close" or "wrong",
+        ``hit`` the target that was hit (if correct) and ``clicked`` the
+        country under the click (may be None).
+        """
+        areas = self.task.areas
+        clicked = self.world.country_at(lon, lat)
+        for target in areas:  # exact hits first, so a click inside a target is never ambiguous
+            if target.contains(lon, lat):
+                return "correct", target, clicked
+        for target in areas:
+            if target.hit(lon, lat, click_tolerance_deg(target, px_per_deg, clicked)):
+                return "correct", target, clicked
+        kind = "close" if self.world.is_close(areas, lon, lat, clicked) else "wrong"
+        return kind, None, clicked
+
     def click(self, lon, lat, px_per_deg):
-        """Judge a click at a map position, given the current zoom."""
+        """Judge a click at a map position, given the current zoom, and
+        update the round accordingly."""
         task = self.task
         if task is None or self.solved:
             return None
-        world = self.world
-        clicked_country = world.country_at(lon, lat)
-        hit = None
-        for target in task.areas:  # exact hits first
-            if target.contains(lon, lat):
-                hit = target
-                break
-        if hit is None:
-            for target in task.areas:
-                if target.hit(lon, lat, click_tolerance_deg(target, px_per_deg, clicked_country)):
-                    hit = target
-                    break
-
+        kind, hit, clicked_country = self.judge(lon, lat, px_per_deg)
         if hit is not None:
             self.solved = True
             star = not self.hint_active
@@ -373,7 +382,7 @@ class Round:
             return Outcome("correct", clicked_country, hit, star=star,
                            wrong_attempts=self.wrong_attempts)
 
-        clicked = clicked_country or world.water_at(lon, lat)
+        clicked = clicked_country or self.world.water_at(lon, lat)
         self.wrong_attempts += 1
         hint_started = False
         if not self.hint_active and self.wrong_attempts >= MAX_WRONG_ATTEMPTS:
@@ -383,7 +392,6 @@ class Round:
         if self.zone is None and not self.hint_active and self.wrong_attempts >= ZONE_AFTER_WRONG:
             self.zone = search_zone(task.areas, self.rng)
             zone_started = True
-        kind = "close" if world.is_close(task.areas, lon, lat, clicked_country) else "wrong"
         return Outcome(kind, clicked, hint_started=hint_started, zone_started=zone_started,
                        wrong_attempts=self.wrong_attempts)
 

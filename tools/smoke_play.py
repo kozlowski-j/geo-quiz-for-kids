@@ -112,13 +112,7 @@ class Bot:
         app = self.app
         sx, sy = app.viewport.to_screen(lon, lat)
         lon, lat = app.viewport.to_world(int(sx), int(sy))
-        task = app.round.task
-        clicked = app.world.country_at(lon, lat)
-        scale = app.viewport.scale
-        for a in task.areas:
-            if a.contains(lon, lat) or a.hit(lon, lat, T.click_tolerance_deg(a, scale, clicked)):
-                return "correct"
-        return "close" if app.world.is_close(task.areas, lon, lat, clicked) else "wrong"
+        return app.round.judge(lon, lat, app.viewport.scale)[0]
 
     @staticmethod
     def candidates():
@@ -382,6 +376,8 @@ def main():
             bot(a)
 
         app.run(driver=driver)
+        for sentence in sorted(app.speaker.missing):
+            bot.fail(f"no voice clip for {sentence!r}")
         saved = json.loads(progress.read_text(encoding="utf-8")) if progress.exists() else {}
 
     played = [l for l in bot.log if l.endswith(": ok")]

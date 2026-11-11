@@ -58,6 +58,13 @@ class Strings:
             value = self._pick(key, value)
         return self._format(value, fmt)
 
+    def speech_variants(self, key, **fmt):
+        """Every phrasing ``speech(key)`` may return (one, unless the entry is a list)."""
+        value = self.data.get("speech", {}).get(key)
+        if value is None:
+            return []
+        return [self._format(phrase, fmt) for phrase in (value if isinstance(value, list) else [value])]
+
     @staticmethod
     def _format(text, fmt):
         try:

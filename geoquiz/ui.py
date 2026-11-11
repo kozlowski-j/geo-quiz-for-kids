@@ -9,6 +9,7 @@ from __future__ import annotations
 import array
 import math
 import random
+import sys
 import time
 
 import pygame
@@ -22,10 +23,16 @@ from .speech import Speaker
 from .strings import BASE_LANGUAGE, Strings, available_languages
 from .tasks import Progress, Round, collection, load_tasks, select_round, ROUND_LENGTH
 from .view import Viewport
-from .voice_lines import round_end_text
+from .voice_lines import miss_feedback, round_end_text
 
 FPS = 60
-DRAG_THRESHOLD_PX = 8        # moving the mouse farther than this while pressed is a drag
+# Moving the mouse farther than this while pressed starts a drag (fractions of
+# the screen height, so it means the same on every screen). Small children
+# often move the mouse while they click, so the threshold is generous...
+DRAG_THRESHOLD = 0.012
+# ...and a press that slid up to this far still counts as a click when the
+# map did not actually move (at zoom 1 there is nowhere to drag it to).
+CLICK_SLOP = 0.03
 ZOOM_STEP = 1.25
 CELEBRATION_MIN_SECONDS = 1.6
 CELEBRATION_MAX_SECONDS = 7.0
@@ -35,7 +42,6 @@ PICTURE_SHRINK_SECONDS = 0.45  # ...the last part of which it shrinks into the t
 
 BLUE = (74, 137, 255)
 ORANGE = (255, 152, 67)
-RED = (255, 110, 110)
 GREEN = (46, 196, 130)
 SOFT = (255, 255, 255)       # "quiet" buttons: white with dark text
 LEVEL_COLORS = [(46, 196, 130), (255, 152, 67), (240, 98, 146)]
@@ -46,9 +52,33 @@ CONFETTI = [(255, 107, 129), (255, 198, 52), (46, 196, 130), (74, 137, 255),
 MENU, PLAY, END = "menu", "play", "end"
 
 
+def enable_dpi_awareness():
+    """Tell Windows the game draws at the real resolution of the screen.
+
+    Without this, on a display scaled to 125 % or 150 % (most laptops) the
+    game is given a smaller pretend desktop and Windows stretches the picture,
+    which blurs every letter and line. Must run before the window is created.
+    """
+    if sys.platform != "win32":
+        return
+    try:
+        import ctypes
+
+        ctypes.windll.shcore.SetProcessDpiAwareness(2)  # per-monitor
+    except (AttributeError, OSError):
+        pass  # older Windows, or already set: the game still works
+
+
 def make_chime():
-    """A short rising three-note chime, synthesised so no sound file is needed."""
-    rate = 44100
+    """A short rising three-note chime, synthesised so no sound file is needed.
+
+    Built for whatever format the mixer really opened (usually stereo, even
+    if mono was asked for): a mono buffer played on a stereo mixer would run
+    at double speed, an octave too high. Returns None for an unusual format.
+    """
+    rate, size, channels = pygame.mixer.get_init()
+    if size != -16:
+        return None
     samples = array.array("h")
     for start, freq in ((0.0, 523.25), (0.11, 659.25), (0.22, 783.99)):
         n0 = int(start * rate)
@@ -60,7 +90,8 @@ def make_chime():
             env = min(1.0, t / 0.01) * math.exp(-t * 7.0)
             v = math.sin(2 * math.pi * freq * t) + 0.3 * math.sin(4 * math.pi * freq * t)
             samples[n0 + i] = max(-32000, min(32000, samples[n0 + i] + int(v * env * 7000)))
-    return pygame.mixer.Sound(buffer=samples.tobytes())
+    frames = array.array("h", (s for s in samples for _ in range(channels)))
+    return pygame.mixer.Sound(buffer=frames.tobytes())
 
 
 class Button:
@@ -100,13 +131,16 @@ class App:
     def __init__(self, fullscreen=True, speak=True, size=(1280, 720), progress_file=None,
                  seed=None, sound=True):
         self.rng = random.Random(seed)
+        enable_dpi_awareness()
         pygame.init()
         self.chime = None
         if sound:
             try:
-                pygame.mixer.init(frequency=44100, size=-16, channels=1, buffer=512)
+                if not pygame.mixer.get_init():
+                    pygame.mixer.init()
                 self.chime = make_chime()
-                self.chime.set_volume(0.5)
+                if self.chime:
+                    self.chime.set_volume(0.5)
             except pygame.error:
                 pass  # no audio device: play silently
 
@@ -158,12 +192,16 @@ class App:
         self.hover_area = None
         self._hover_key = None
         self.mouse_down_pos = None
+        self.mouse_down_view = None    # viewport.version when the button went down
         self.dragging = False
+        self.drag_threshold = max(8, self.H * DRAG_THRESHOLD)
+        self.click_slop = max(self.drag_threshold, self.H * CLICK_SLOP)
         self.last_mouse = (0, 0)
         self._text_cache = {}
         self._backdrop = None
         self._bar_shadow = None
         self._picture_start = 0.0
+        self._picture_card = None      # the big picture card, composed once per task
         self.end_started = 0.0
         self.frame = 0
 
@@ -307,40 +345,22 @@ class App:
         outcome = self.round.click(lon, lat, self.viewport.scale)
         if outcome is None:
             return
-        s = self.strings
         if outcome.kind == "correct":
             self.phase = "celebrate"
             self.phase_started = time.monotonic()
             self.flash_areas = list(self.round.task.areas)
-            text = s.speech("praise") if outcome.star else s.speech("after_hint")
+            text = self.strings.speech("praise" if outcome.star else "after_hint")
             self.speaker.say(text)
             self._banner(text)
             self._confetti(pos[0], pos[1], 90)
             if self.chime:
                 self.chime.play()
             return
-        # Each sentence is its own pre-recorded clip, so they are spoken one
-        # after the other in the order the pattern puts them on screen.
-        that_is = s.speech("that_is", name=s.area_name(outcome.clicked))
         if outcome.hint_started:
-            hint = s.speech("hint")
-            text = s.speech("hint_pattern", that_is=that_is, hint=hint)
-            parts = [that_is, hint]
             self.viewport.reset()  # make sure the glowing answer is on screen
-        elif self.round.hint_active:
-            text = that_is
-            parts = [that_is]
-        elif outcome.zone_started:
-            clue = s.speech("zone")
-            text = s.speech("zone_pattern", that_is=that_is, zone=clue)
-            parts = [that_is, clue]
-            if not self._zone_visible():
-                self.viewport.reset()  # make sure the whole box is on screen
-        else:
-            phrase = s.speech("close" if outcome.kind == "close" else "wrong")
-            text = s.speech("wrong_pattern", phrase=phrase, that_is=that_is)
-            parts = [phrase, that_is]
-        parts.sort(key=text.find)
+        elif outcome.zone_started and not self._zone_visible():
+            self.viewport.reset()  # make sure the whole box is on screen
+        text, parts = miss_feedback(self.strings, outcome, self.round.hint_active)
         self.miss_marks.append((lon, lat, time.monotonic()))
         self.speaker.say(parts)
         self._banner(text)
@@ -370,39 +390,70 @@ class App:
         return (self.state == PLAY and self.phase == "asking" and bool(self._picture_id())
                 and time.monotonic() - self._picture_start < PICTURE_SECONDS)
 
-    def _picture_rect(self):
-        """Where the picture is right now: big over the map, shrinking, or a
-        thumbnail next to the question. Hovering the thumbnail enlarges it."""
-        thumb = self._thumb_rect()
+    def _big_picture_rect(self):
         aspect = gfx.picture_aspect(self._picture_id())
         height = int(self.H * (0.52 if aspect >= 1 else 0.62))  # tall pictures get more height
         big = pygame.Rect(0, 0, int(height * aspect), height)
         big.center = (self.W // 2, self.bar_h + (self.H - self.bar_h) // 2 - int(self.H * 0.03))
-        elapsed = time.monotonic() - self._picture_start
+        return big
+
+    def _picture_rect(self):
+        """Where the picture is right now: big over the map, shrinking, or a
+        thumbnail next to the question. Hovering the thumbnail enlarges it.
+        Returns (rect, shrinking)."""
+        thumb = self._thumb_rect()
         if self.phase != "asking":
-            return thumb
+            return thumb, False
+        big = self._big_picture_rect()
+        elapsed = time.monotonic() - self._picture_start
         if elapsed >= PICTURE_SECONDS:
-            return big if thumb.collidepoint(self.last_mouse) else thumb
+            return (big if thumb.collidepoint(self.last_mouse) else thumb), False
         t = (elapsed - (PICTURE_SECONDS - PICTURE_SHRINK_SECONDS)) / PICTURE_SHRINK_SECONDS
         if t <= 0:
-            return big
+            return big, False
         t = t * t * (3 - 2 * t)  # ease in and out
         return pygame.Rect(round(big.x + (thumb.x - big.x) * t), round(big.y + (thumb.y - big.y) * t),
-                           round(big.w + (thumb.w - big.w) * t), round(big.h + (thumb.h - big.h) * t))
+                           round(big.w + (thumb.w - big.w) * t), round(big.h + (thumb.h - big.h) * t)), True
+
+    def _compose_picture(self, size):
+        """The picture in its white frame with a soft shadow, as one surface.
+        Returns (surface, offset of the photo inside it), or None."""
+        image = gfx.picture(self._picture_id(), *size)
+        if image is None:
+            return None
+        border = max(3, size[1] // 40)
+        frame = (size[0] + border * 2, size[1] + border * 2)
+        panel, margin = gfx.panel(frame, WHITE, int(min(frame) * 0.19),
+                                  max(4, min(size[1] // 14, self.H // 60)))
+        card = panel.copy()
+        card.blit(image, (margin + border, margin + border))
+        return card, margin + border
 
     def _draw_picture(self):
         picture_id = self._picture_id()
         if not picture_id:
             return
-        rect = self._picture_rect()
-        image = gfx.picture(picture_id, rect.width, rect.height)
-        if image is None:
+        rect, shrinking = self._picture_rect()
+        if not shrinking:
+            composed = self._compose_picture(rect.size)
+            if composed:
+                self.screen.blit(composed[0], (rect.x - composed[1], rect.y - composed[1]))
             return
-        border = max(3, rect.height // 40)
-        frame = rect.inflate(border * 2, border * 2)
-        gfx.draw_panel(self.screen, frame, WHITE, int(min(frame.size) * 0.19),
-                       shadow=max(4, min(rect.height // 14, self.H // 60)))
-        self.screen.blit(image, rect)
+        # While it shrinks, the finished big card is scaled as a whole. Building
+        # a new frame, shadow and photo for every in-between size would take
+        # longer than the animation lasts.
+        big = self._big_picture_rect()
+        key = (picture_id, big.size)
+        if self._picture_card is None or self._picture_card[0] != key:
+            self._picture_card = (key, self._compose_picture(big.size))
+        composed = self._picture_card[1]
+        if composed is None:
+            return
+        card, offset = composed
+        factor = rect.width / big.width
+        size = (max(1, round(card.get_width() * factor)), max(1, round(card.get_height() * factor)))
+        self.screen.blit(pygame.transform.smoothscale(card, size),
+                         (rect.x - round(offset * factor), rect.y - round(offset * factor)))
 
     def _draw_pin(self, now):
         """Marks the exact spot of a landmark once it is found or shown."""
@@ -478,7 +529,7 @@ class App:
                 if not self.dragging:
                     dx = event.pos[0] - self.mouse_down_pos[0]
                     dy = event.pos[1] - self.mouse_down_pos[1]
-                    if dx * dx + dy * dy > DRAG_THRESHOLD_PX ** 2:
+                    if dx * dx + dy * dy > self.drag_threshold ** 2:
                         self.dragging = True
                         self.viewport.pan(dx, dy)
                 else:
@@ -497,14 +548,19 @@ class App:
                 self._picture_start = time.monotonic()  # clicking the thumbnail shows it big again
             elif self.state == PLAY and self.viewport.contains_screen_point(*event.pos):
                 self.mouse_down_pos = event.pos
+                self.mouse_down_view = self.viewport.version
                 self.dragging = False
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             if self.mouse_down_pos is not None:
-                was_drag = self.dragging
+                down = self.mouse_down_pos
                 self.mouse_down_pos = None
                 self.dragging = False
-                if not was_drag and self.state == PLAY:
-                    self.on_map_click(event.pos)
+                # It was a click unless the map really moved under the mouse
+                # (or the mouse travelled a long way trying to move it). The
+                # answer is where the button went down: that is what was aimed at.
+                moved_map = self.viewport.version != self.mouse_down_view
+                if self.state == PLAY and not moved_map and math.dist(down, event.pos) <= self.click_slop:
+                    self.on_map_click(down)
         elif event.type == pygame.MOUSEWHEEL and self.state == PLAY:
             pos = self.last_mouse
             if self.viewport.contains_screen_point(*pos) and event.y:
@@ -616,7 +672,7 @@ class App:
             base = pygame.Surface((self.W, self.H)).convert()
             base.blit(gfx.vertical_gradient((self.W, self.H), OCEAN_TOP, OCEAN_BOTTOM), (0, 0))
             self.renderer.draw(base, smooth_now=True)
-            base = pygame.transform.gaussian_blur(base, max(2, self.H // 180))
+            base = gfx.soft_blur(base, max(2, self.H // 180))
             veil = pygame.Surface((self.W, self.H), pygame.SRCALPHA)
             veil.fill((255, 255, 255, 105))
             base.blit(veil, (0, 0))
@@ -769,15 +825,22 @@ class App:
                 screen.blit(gfx.arrow(size, ORANGE, flipped), inside)
         screen.set_clip(old_clip)
 
+    def _collection_rect(self):
+        """The counters panel: between the language flags and the Quit button."""
+        gap = int(self.W * 0.02)
+        left = int(self.W * 0.235)
+        if self.language_buttons:  # never under the flags, however many or however narrow the screen
+            left = max(left, self.language_buttons[-1].rect.right + gap)
+        right = self.quit_button.rect.left - gap
+        height = int(self.H * 0.105)
+        return pygame.Rect(left, self.H - height - int(self.H * 0.035), right - left, height)
+
     def _draw_collection(self):
         """Counters of what has been found so far: Countries 12/40, Animals 3/22 ..."""
         groups = collection(self.tasks, self.progress)
         if not groups:
             return
-        left = int(self.W * 0.235)
-        right = self.quit_button.rect.left - int(self.W * 0.02)
-        height = int(self.H * 0.105)
-        rect = pygame.Rect(left, self.H - height - int(self.H * 0.035), right - left, height)
+        rect = self._collection_rect()
         gfx.draw_panel(self.screen, rect, WHITE, int(self.H * 0.03), shadow=max(4, self.H // 110))
         cell = rect.width / len(groups)
         for i, (name, found, total) in enumerate(groups):
@@ -895,6 +958,11 @@ class App:
                 self.update(dt)
                 self.draw()
         finally:
-            self.progress.save()
-            self.speaker.shutdown()
-            pygame.quit()
+            self.close()
+
+    def close(self):
+        """Save and shut pygame down. A new App can be created afterwards."""
+        self.progress.save()
+        self.speaker.stop()
+        pygame.quit()
+        gfx.reset_caches()

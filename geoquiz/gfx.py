@@ -17,7 +17,6 @@ INK = (36, 48, 78)            # main text colour
 INK_SOFT = (110, 122, 150)    # secondary text
 WHITE = (255, 255, 255)
 GOLD = (255, 198, 52)
-GOLD_DARK = (240, 165, 20)
 EMPTY = (218, 225, 236)
 
 _fonts = {}
@@ -36,6 +35,28 @@ def font(size, weight="extrabold"):
     return _fonts[key]
 
 
+def reset_caches():
+    """Forget every cached font and surface. They die with ``pygame.quit()``,
+    so this must be called before pygame is started a second time."""
+    _fonts.clear()
+    for cached in (panel, star, icon, vertical_gradient, flag, arrow, picture, pin):
+        cached.cache_clear()
+
+
+def soft_blur(surface, radius):
+    """Gaussian blur. A blurred image holds no fine detail, so a large blur
+    is done on a shrunken copy and scaled back up: it looks the same and
+    takes a small fraction of the time."""
+    radius = max(1, int(radius))
+    shrink = radius // 3
+    w, h = surface.get_size()
+    if shrink < 2 or w < shrink * 8 or h < shrink * 8:
+        return pygame.transform.gaussian_blur(surface, radius)
+    small = pygame.transform.smoothscale(surface, (w // shrink, h // shrink))
+    small = pygame.transform.gaussian_blur(small, max(1, round(radius / shrink)))
+    return pygame.transform.smoothscale(small, (w, h))
+
+
 def lighten(color, amount):
     return tuple(int(c + (255 - c) * amount) for c in color[:3])
 
@@ -45,7 +66,7 @@ def darken(color, amount):
 
 
 @lru_cache(maxsize=256)
-def panel(size, color, radius, shadow=10, gradient=0.0, alpha=255):
+def panel(size, color, radius, shadow=10, gradient=0.0):
     """A rounded rectangle with an optional soft drop shadow.
 
     Returns (surface, margin): blit the surface at (x - margin, y - margin)
@@ -68,22 +89,19 @@ def panel(size, color, radius, shadow=10, gradient=0.0, alpha=255):
         shade.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
         big = shade
     body = pygame.transform.smoothscale(big, (w, h))
-    if alpha < 255:
-        body.set_alpha(alpha)
     margin = int(shadow * 2) if shadow else 0
     if not margin:
         return body, 0
     out = pygame.Surface((w + 2 * margin, h + 2 * margin), pygame.SRCALPHA)
     pygame.draw.rect(out, (20, 40, 80, 70), pygame.Rect(margin, margin + shadow // 2, w, h),
                      border_radius=radius)
-    out = pygame.transform.gaussian_blur(out, max(1, int(shadow)))
+    out = soft_blur(out, shadow)
     out.blit(body, (margin, margin))
     return out, margin
 
 
-def draw_panel(screen, rect, color, radius, shadow=10, gradient=0.0, alpha=255):
-    surf, margin = panel((rect.width, rect.height), tuple(color), int(radius), int(shadow),
-                         gradient, alpha)
+def draw_panel(screen, rect, color, radius, shadow=10, gradient=0.0):
+    surf, margin = panel((rect.width, rect.height), tuple(color), int(radius), int(shadow), gradient)
     screen.blit(surf, (rect.x - margin, rect.y - margin))
 
 

@@ -69,15 +69,13 @@ def test_contains_screen_point():
     assert not view.contains_screen_point(99, 200)
 
 
-def test_px_to_deg(view):
-    assert view.px_to_deg(15) == pytest.approx(15 / (1920 / 360))
-    assert view.px_to_deg(15) == pytest.approx(2.8125)
+def test_pixels_convert_to_degrees_by_the_scale(view):
+    assert view.scale == pytest.approx(1920 / 360)
     view.zoom_at(W / 2, H / 2, 4)
-    assert view.px_to_deg(15) == pytest.approx(2.8125 / 4)
-    # Consistent with the projection: 15 px apart on screen is that many degrees.
+    # 15 px apart on screen is 15 / scale degrees, which is what the click tolerance relies on.
     lon0, _ = view.to_world(700, 300)
     lon1, _ = view.to_world(715, 300)
-    assert lon1 - lon0 == pytest.approx(view.px_to_deg(15))
+    assert lon1 - lon0 == pytest.approx(15 / view.scale) == pytest.approx(2.8125 / 4)
 
 
 @pytest.mark.parametrize("sx, sy", [(960, 464), (300, 200), (1500, 700), (10, 10), (1900, 900)])
@@ -201,6 +199,21 @@ def test_version_changes_on_every_change(view):
         change()
         assert view.version not in seen
         seen.add(view.version)
+
+
+def test_version_stays_put_when_nothing_moves(view):
+    """The renderer redraws on a new version, and the UI uses it to tell a real
+    drag from a shaky click, so a change that changes nothing must not count."""
+    start = view.version
+    view.reset()                      # already the whole world
+    view.pan(40, -25)                 # at zoom 1 there is nowhere to go
+    view.zoom_at(500, 300, 0.5)       # cannot zoom out past the whole world
+    assert view.version == start
+    view.zoom_at(500, 300, 2)
+    assert view.version == start + 1
+    view.reset()
+    view.reset()
+    assert view.version == start + 2
 
 
 def test_letterboxed_view_keeps_the_world_centred():

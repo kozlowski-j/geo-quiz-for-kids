@@ -234,7 +234,6 @@ def test_wrong_click_sentence_is_composed_and_recorded(world, strings):
 
 def test_disabled_speaker_records_everything_but_blank_text():
     speaker = Speaker(enabled=False)
-    assert speaker.wait_ready(0.1)
     speaker.say("Find France on the map.")
     speaker.say("   ")
     speaker.say(None)
@@ -242,7 +241,6 @@ def test_disabled_speaker_records_everything_but_blank_text():
     assert speaker.history == ["Find France on the map.", "Good job!"]
     assert speaker.available is False and speaker.busy is False
     speaker.stop()
-    speaker.shutdown()
 
 
 # ---- pre-recorded voice clips -------------------------------------------------------------------
@@ -272,13 +270,86 @@ def test_voice_lines_cover_everything_the_game_says(world, strings):
 def test_every_sentence_has_a_recorded_clip(world, language):
     """Fails after editing a spoken text without running tools/generate_voice.py."""
     from geoquiz.tasks import load_tasks
-    from geoquiz.voice_lines import all_lines, clip_name, voice_dir
+    from geoquiz.voice_lines import all_lines, clip_path
 
     strings = Strings.load(language=language)
     tasks, _ = load_tasks(world)
-    folder = voice_dir(strings.language)
-    missing = [text for text in all_lines(world, strings, tasks) if not (folder / clip_name(text)).exists()]
+    missing = [text for text in all_lines(world, strings, tasks)
+               if not clip_path(strings.language, text).exists()]
     assert not missing, f"{len(missing)} sentences have no clip, e.g. {missing[:3]}"
+
+
+def test_every_variant_of_a_spoken_entry_gets_a_clip(world, strings):
+    """A translator may turn any spoken entry into a list of variants, of which
+    the game says one at random. All of them must be on the list of clips."""
+    import copy
+
+    from geoquiz.tasks import load_tasks
+    from geoquiz.voice_lines import all_lines
+
+    data = copy.deepcopy(strings.data)
+    data["speech"]["that_is"] = ["That is {name}.", "You clicked {name}."]
+    data["speech"]["round_end_good"] = ["Great! {stars} stars.", "Lovely! {stars} out of {total}."]
+    data["speech"]["welcome"] = ["Hello!", "Hi there!"]
+    data["speech"]["brand_new"] = "Something added later."
+    varied = Strings(data)
+    tasks, _ = load_tasks(world)
+    lines = all_lines(world, varied, tasks)
+    for expected in ("That is Germany.", "You clicked Germany.", "You clicked the Pacific Ocean.",
+                     "Great! 7 stars.", "Lovely! 7 out of 10.", "Hello!", "Hi there!",
+                     "Something added later."):
+        assert expected in lines
+    assert not any("{" in line for line in lines)  # patterns themselves are never spoken
+
+
+OUTCOMES = [  # (outcome fields, hint already glowing)
+    ({"kind": "wrong"}, False),
+    ({"kind": "close"}, False),
+    ({"kind": "wrong", "zone_started": True}, False),
+    ({"kind": "close", "hint_started": True}, True),
+    ({"kind": "wrong"}, True),
+]
+
+
+@pytest.mark.parametrize("language", ["en", "pl"])
+def test_everything_said_after_a_miss_has_a_clip(world, language):
+    """Ties the game's answers to the list of recorded sentences: whatever
+    miss_feedback wants spoken must be a sentence the generator knows about."""
+    from geoquiz.tasks import Outcome, load_tasks
+    from geoquiz.voice_lines import all_lines, miss_feedback
+
+    strings = Strings.load(language=language, rng=random.Random(3))
+    tasks, _ = load_tasks(world)
+    known = set(all_lines(world, strings, tasks))
+    clicked_things = [None, world.find("country:Germany"), world.find("sea:Caribbean Sea"),
+                      world.find("ocean:Pacific Ocean")]
+    for fields, hint_active in OUTCOMES:
+        for clicked in clicked_things:
+            for _ in range(4):  # go through the random variants
+                text, parts = miss_feedback(strings, Outcome(clicked=clicked, **fields), hint_active)
+                assert parts and set(parts) <= known
+                assert all(part in text for part in parts)
+                assert sorted(parts, key=text.find) == parts  # spoken in the order shown
+
+
+def test_miss_feedback_follows_the_order_of_the_pattern(world, strings):
+    import copy
+
+    from geoquiz.tasks import Outcome
+    from geoquiz.voice_lines import miss_feedback
+
+    germany = world.find("country:Germany")
+    text, parts = miss_feedback(strings, Outcome("wrong", germany), False)
+    assert parts[1] == "That is Germany." and text == " ".join(parts)
+    data = copy.deepcopy(strings.data)
+    data["speech"]["wrong_pattern"] = "{that_is} {phrase}"   # a language that names the place first
+    text, parts = miss_feedback(Strings(data), Outcome("wrong", germany), False)
+    assert parts[0] == "That is Germany." and text == " ".join(parts)
+    del data["speech"]["wrong_pattern"]                       # no pattern at all: still says both
+    text, parts = miss_feedback(Strings(data), Outcome("wrong", germany), False)
+    assert len(parts) == 2 and text == " ".join(parts)
+    # Once the answer glows, only the name of what was clicked is said.
+    assert miss_feedback(strings, Outcome("wrong", germany), True) == ("That is Germany.", ["That is Germany."])
 
 
 def test_speaker_accepts_a_list_of_sentences():

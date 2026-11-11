@@ -36,10 +36,27 @@ def resource_dirs(relative):
     return [c for c in candidates if c.is_dir()]
 
 
+def _writable(folder):
+    """Can a file really be created here? (os.access cannot tell on Windows:
+    it only looks at the read-only attribute, so it says yes for Program Files.)"""
+    # Not tempfile: on Windows it retries a refused create millions of times,
+    # which would hang the game at startup in exactly the case being tested.
+    probe = Path(folder) / f".write-test-{os.getpid()}"
+    try:
+        os.close(os.open(probe, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+    except OSError:
+        return False
+    try:
+        probe.unlink()
+    except OSError:
+        pass
+    return True
+
+
 def progress_path():
     """Writable location for progress.json: beside the app if possible."""
     folder = app_dir()
-    if os.access(folder, os.W_OK):
+    if _writable(folder):
         return folder / "progress.json"
     base = Path(os.environ.get("APPDATA") or Path.home()) / "KidsGeoQuiz"
     base.mkdir(parents=True, exist_ok=True)

@@ -1,7 +1,7 @@
 """The "you are close" rule: neighbouring country, or within about 1000 km."""
 import pytest
 
-from geoquiz import geometry as geo
+from conftest import haversine_km
 from geoquiz import tasks as T
 from geoquiz.mapdata import CLOSE_KM, Area
 
@@ -23,7 +23,7 @@ def areas(world, *refs):
 def vertex_km(area, lon, lat):
     """Reference distance: nearest vertex of the shape by great circle."""
     points = [v for poly in area.polys for v in poly[0]] + [v for l in area.lines for v in l]
-    return min(geo.haversine_km(lon, lat, x, y) for x, y in points)
+    return min(haversine_km(lon, lat, x, y) for x, y in points)
 
 
 def round_for(world, *refs):
@@ -55,6 +55,14 @@ def test_french_guiana_does_not_make_brazil_a_neighbour_of_france(world):
     assert brazil.id not in france.neighbors
     assert france.id not in brazil.neighbors
     assert "country:Suriname" not in france.neighbors
+
+
+@pytest.mark.parametrize("name", ["Poland", "Lithuania"])
+def test_kaliningrad_makes_russia_a_neighbour(world, name):
+    """An exclave next to a very wide mainland is still part of the country."""
+    russia = world.find("country:Russia")
+    other = world.find(f"country:{name}")
+    assert other.id in russia.neighbors and russia.id in other.neighbors
 
 
 def test_neighbour_ids_all_exist_and_never_include_the_country_itself(world):

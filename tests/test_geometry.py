@@ -3,6 +3,7 @@ import math
 
 import pytest
 
+from conftest import haversine_km
 from geoquiz import geometry as geo
 
 SQUARE = [(0, 0), (10, 0), (10, 10), (0, 10)]
@@ -109,23 +110,6 @@ def test_distance_to_path_degenerate_inputs():
 
 
 # ---- ground distance --------------------------------------------------------
-def test_haversine_known_distances():
-    assert geo.haversine_km(0, 0, 0, 0) == 0
-    # One degree of latitude.
-    assert geo.haversine_km(0, 0, 0, 1) == pytest.approx(111.2, abs=0.2)
-    # A quarter of the way around the equator.
-    assert geo.haversine_km(0, 0, 90, 0) == pytest.approx(10007.5, rel=1e-3)
-    # Paris - London is about 344 km.
-    assert geo.haversine_km(2.35, 48.86, -0.13, 51.51) == pytest.approx(344, abs=5)
-
-
-def test_haversine_is_symmetric():
-    a = geo.haversine_km(2.35, 48.86, 37.62, 55.75)
-    b = geo.haversine_km(37.62, 55.75, 2.35, 48.86)
-    assert a == pytest.approx(b)
-    assert a == pytest.approx(2487, abs=15)  # Paris - Moscow
-
-
 @pytest.mark.parametrize("p, q", [
     ((0, 0), (5, 0)),
     ((0, 0), (0, 9)),
@@ -138,7 +122,7 @@ def test_haversine_is_symmetric():
     ((18.0, 59.3), (25.7, 71.2)),       # Stockholm - North Cape, ~1370 km
 ])
 def test_km_to_path_single_point_agrees_with_haversine(p, q):
-    expected = geo.haversine_km(p[0], p[1], q[0], q[1])
+    expected = haversine_km(p[0], p[1], q[0], q[1])
     assert geo.km_to_path([q], p[0], p[1]) == pytest.approx(expected, rel=0.03)
 
 
@@ -166,7 +150,7 @@ def test_km_to_path_empty_is_infinite():
 
 def test_km_to_path_wraps_across_the_antimeridian():
     # 179 E and 179 W are two degrees apart, not 358.
-    expected = geo.haversine_km(179, 0, -179, 0)
+    expected = haversine_km(179, 0, -179, 0)
     assert expected == pytest.approx(222.4, abs=1)
     assert geo.km_to_path([(-179, 0)], 179, 0) == pytest.approx(expected, rel=0.02)
     assert geo.km_to_path([(179, 0)], -179, 0) == pytest.approx(expected, rel=0.02)
@@ -184,7 +168,7 @@ def test_km_to_path_is_large_for_a_shape_on_the_far_side_of_the_globe():
     # ends unwrap to opposite sides of the query point, but the path does not
     # pass anywhere near it.
     path = [(-5, 47), (8, 47)]
-    true_km = min(geo.haversine_km(179, 47, x, y) for x, y in path)
+    true_km = min(haversine_km(179, 47, x, y) for x, y in path)
     assert true_km > 8000
     assert geo.km_to_path(path, 179, 47) > 3000
 
