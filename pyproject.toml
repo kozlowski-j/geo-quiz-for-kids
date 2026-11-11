@@ -1,0 +1,7 @@
+[project]
+name = "kids-geo-quiz"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "pygame-ce>=2.5.8",
+]

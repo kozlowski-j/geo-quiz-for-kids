@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# World Explorer
+progress.json
+progress.tmp
+.idea/
+*.spec

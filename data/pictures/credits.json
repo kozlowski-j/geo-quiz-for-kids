@@ -1,0 +1,534 @@
+{
+ "lion": {
+  "file": "File:020 The lion king Snyggve in the Serengeti National Park Photo by Giles Laurent.jpg",
+  "author": "Giles Laurent",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg"
+ },
+ "elephant": {
+  "file": "File:178 Male African bush elephant in Etosha National Park Photo by Giles Laurent.jpg",
+  "author": "Giles Laurent",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:178_Male_African_bush_elephant_in_Etosha_National_Park_Photo_by_Giles_Laurent.jpg"
+ },
+ "giraffe": {
+  "file": "File:Giraffe Mikumi National Park.jpg",
+  "author": "Muhammad Mahdi Karim Facebook The making of this document was supported by Wikimedia CH. (Submit your project!) For all the files concerned, please see the category Supported by Wikimedia CH. العربية ∙ বাংলা ∙ čeština ∙ Deutsch ∙ English ∙ Esperanto ∙ español ∙ français ∙ galego ∙ हिन्दी ∙ magyar ∙ italiano ∙ 日本語 ∙ македонски ∙ Nederlands ∙ português do Brasil ∙ rumantsch ∙ русский ∙ sicilianu ∙ slovenščina ∙ தமிழ் ∙ українська ∙ 中文 ∙ +/−",
+  "licence": "GFDL 1.2",
+  "licence_url": "http://www.gnu.org/licenses/old-licenses/fdl-1.2.html",
+  "page": "https://commons.wikimedia.org/wiki/File:Giraffe_Mikumi_National_Park.jpg"
+ },
+ "zebra": {
+  "file": "File:Equus quagga burchellii - Etosha, 2014.jpg",
+  "author": "Yathin S Krishnappa",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Equus_quagga_burchellii_-_Etosha,_2014.jpg"
+ },
+ "hippo": {
+  "file": "File:Portrait Hippopotamus in the water.jpg",
+  "author": "Muhammad Mahdi Karim",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Portrait_Hippopotamus_in_the_water.jpg"
+ },
+ "tiger": {
+  "file": "File:Bengal tiger (Panthera tigris tigris) female 3 crop.jpg",
+  "author": "Charles J. Sharp",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bengal_tiger_(Panthera_tigris_tigris)_female_3_crop.jpg"
+ },
+ "giant_panda": {
+  "file": "File:Grosser Panda.JPG",
+  "author": "J. Patrick Fischer",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Grosser_Panda.JPG"
+ },
+ "kangaroo": {
+  "file": "File:Red kangaroo - melbourne zoo.jpg",
+  "author": "fir0002 flagstaffotos [at] gmail.com Canon 20D + Canon 70-200mm f/2.8 L",
+  "licence": "GFDL 1.2",
+  "licence_url": "http://www.gnu.org/licenses/old-licenses/fdl-1.2.html",
+  "page": "https://commons.wikimedia.org/wiki/File:Red_kangaroo_-_melbourne_zoo.jpg"
+ },
+ "koala": {
+  "file": "File:Koala climbing tree.jpg",
+  "author": "Diliff",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Koala_climbing_tree.jpg"
+ },
+ "polar_bear": {
+  "file": "File:Polar Bear - Alaska (cropped).jpg",
+  "author": "Alan Wilson",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Polar_Bear_-_Alaska_(cropped).jpg"
+ },
+ "penguin": {
+  "file": "File:Aptenodytes forsteri -Snow Hill Island, Antarctica -adults and juvenile-8.jpg",
+  "author": "Ian Duffy from UK",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aptenodytes_forsteri_-Snow_Hill_Island,_Antarctica_-adults_and_juvenile-8.jpg"
+ },
+ "camel": {
+  "file": "File:Camelus dromedarius in Nuweiba.jpg",
+  "author": "Florian Prischl",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Camelus_dromedarius_in_Nuweiba.jpg"
+ },
+ "gorilla": {
+  "file": "File:Gorille des plaines de l'ouest à l'Espace Zoologique.jpg",
+  "author": "Thurundir",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gorille_des_plaines_de_l%27ouest_%C3%A0_l%27Espace_Zoologique.jpg"
+ },
+ "llama": {
+  "file": "File:Llamas, Vernagt-Stausee, Italy.jpg",
+  "author": "Andrija12345678",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Llamas,_Vernagt-Stausee,_Italy.jpg"
+ },
+ "jaguar": {
+  "file": "File:Standing jaguar.jpg",
+  "author": "USFWS",
+  "licence": "Public domain",
+  "licence_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Standing_jaguar.jpg"
+ },
+ "sloth": {
+  "file": "File:Bicho-preguiça 3.jpg",
+  "author": "Daniella Maraschiello",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bicho-pregui%C3%A7a_3.jpg"
+ },
+ "orangutan": {
+  "file": "File:Tanjung Puting30477.jpg",
+  "author": "Nanosanchez",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tanjung_Puting30477.jpg"
+ },
+ "lemur": {
+  "file": "File:Ring-tailed lemur (Lemur catta).jpg",
+  "author": "Charles J. Sharp",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ring-tailed_lemur_(Lemur_catta).jpg"
+ },
+ "kiwi": {
+  "file": "File:TeTuatahianui.jpg",
+  "author": "Maungatautari Ecological Island Trust",
+  "licence": "Public domain",
+  "licence_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:TeTuatahianui.jpg"
+ },
+ "bald_eagle": {
+  "file": "File:Bald eagle about to fly in Alaska (2016).jpg",
+  "author": "Andy Morffew from Itchen Abbas, Hampshire, UK",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bald_eagle_about_to_fly_in_Alaska_(2016).jpg"
+ },
+ "reindeer": {
+  "file": "File:Reinbukken på frisk grønt beite. - panoramio.jpg",
+  "author": "Are G Nilsen",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Reinbukken_p%C3%A5_frisk_gr%C3%B8nt_beite._-_panoramio.jpg"
+ },
+ "bison": {
+  "file": "File:American bison k5680-1.jpg",
+  "author": "Jack Dykinga",
+  "licence": "Public domain",
+  "licence_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:American_bison_k5680-1.jpg"
+ },
+ "european_bison": {
+  "file": "File:European bison (Bison bonasus) male Białowieza.jpg",
+  "author": "Charles J. Sharp",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:European_bison_(Bison_bonasus)_male_Bia%C5%82owieza.jpg"
+ },
+ "cheetah": {
+  "file": "File:Male cheetah facing left in South Africa.jpg",
+  "author": "AfricanConservation",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Male_cheetah_facing_left_in_South_Africa.jpg"
+ },
+ "rhino": {
+  "file": "File:109 Male White rhinoceros walking in the Kalahari Desert of Namibia Photo by Giles Laurent.jpg",
+  "author": "Giles Laurent",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:109_Male_White_rhinoceros_walking_in_the_Kalahari_Desert_of_Namibia_Photo_by_Giles_Laurent.jpg"
+ },
+ "chimpanzee": {
+  "file": "File:015 Chimpanzee at Kibale forest National Park Photo by Giles Laurent.jpg",
+  "author": "Giles Laurent",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:015_Chimpanzee_at_Kibale_forest_National_Park_Photo_by_Giles_Laurent.jpg"
+ },
+ "komodo_dragon": {
+  "file": "File:202306 Varanus komodoensis.jpg",
+  "author": "James Jolokia (james1203)",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:202306_Varanus_komodoensis.jpg"
+ },
+ "moose": {
+  "file": "File:Alaska moose.jpg",
+  "author": "Paxson Woelber",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Alaska_moose.jpg"
+ },
+ "walrus": {
+  "file": "File:Walrus in the Russian Arctic National Park, Novaya Zemlya 2015-2.jpg",
+  "author": "Nixette",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Walrus_in_the_Russian_Arctic_National_Park,_Novaya_Zemlya_2015-2.jpg"
+ },
+ "ostrich": {
+  "file": "File:Struthio camelus - Etosha 2014 (3).jpg",
+  "author": "Yathin S Krishnappa",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Struthio_camelus_-_Etosha_2014_(3).jpg"
+ },
+ "toucan": {
+  "file": "File:006 Toco toucan in Encontro das Águas State Park Photo by Giles Laurent (cropped).jpg",
+  "author": "Giles Laurent",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:006_Toco_toucan_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent_(cropped).jpg"
+ },
+ "anaconda": {
+  "file": "File:Sucuri verde.jpg",
+  "author": "MKAMPIS",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sucuri_verde.jpg"
+ },
+ "meerkat": {
+  "file": "File:Meerkat (Suricata suricatta) Tswalu.jpg",
+  "author": "Charles J. Sharp",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Meerkat_(Suricata_suricatta)_Tswalu.jpg"
+ },
+ "snow_leopard": {
+  "file": "File:Irbis4.JPG",
+  "author": "Irbis1983",
+  "licence": "Public domain",
+  "licence_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Irbis4.JPG"
+ },
+ "red_panda": {
+  "file": "File:Red Panda, Gentle Tree-Dweller of the Himalayas.jpg",
+  "author": "Sunuwargr",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Red_Panda,_Gentle_Tree-Dweller_of_the_Himalayas.jpg"
+ },
+ "platypus": {
+  "file": "File:Duck-billed platypus (Ornithorhynchus anatinus) Scottsdale.jpg",
+  "author": "Charles J. Sharp",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Duck-billed_platypus_(Ornithorhynchus_anatinus)_Scottsdale.jpg"
+ },
+ "tasmanian_devil": {
+  "file": "File:Sarcophilus harrisii taranna.jpg",
+  "author": "JJ Harrison (https://www.jjharrison.com.au/)",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sarcophilus_harrisii_taranna.jpg"
+ },
+ "grizzly_bear": {
+  "file": "File:GrizzlyBearJeanBeaufort.jpg",
+  "author": "Jean Beaufort",
+  "licence": "CC0",
+  "licence_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:GrizzlyBearJeanBeaufort.jpg"
+ },
+ "raccoon": {
+  "file": "File:Raccoon in Central Park (35264).jpg",
+  "author": "Rhododendrites",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Raccoon_in_Central_Park_(35264).jpg"
+ },
+ "arctic_fox": {
+  "file": "File:Vulpes lagopus in Iceland (cropped 3).jpg",
+  "author": "Jonatan Pie (unsplash.com/@r3dmax)",
+  "licence": "CC0",
+  "licence_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Vulpes_lagopus_in_Iceland_(cropped_3).jpg"
+ },
+ "puffin": {
+  "file": "File:Puffin (Fratercula arctica).jpg",
+  "author": "Charles J. Sharp",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Puffin_(Fratercula_arctica).jpg"
+ },
+ "capybara": {
+  "file": "File:Capybaracropped.jpg",
+  "author": "Giles Laurent",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Capybaracropped.jpg"
+ },
+ "condor": {
+  "file": "File:AndeanCondorMale.jpg",
+  "author": "Greg Hume",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:AndeanCondorMale.jpg"
+ },
+ "okapi": {
+  "file": "File:Saint-Aignan (Loir-et-Cher). Okapi.jpg",
+  "author": "Daniel Jolivet",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Saint-Aignan_(Loir-et-Cher)._Okapi.jpg"
+ },
+ "yak": {
+  "file": "File:Sarlyk Yak2.jpg",
+  "author": "Alexandr frolov",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sarlyk_Yak2.jpg"
+ },
+ "peacock": {
+  "file": "File:Peacock on tree (52077240794).jpg",
+  "author": "Kandukuru Nagarjun from Bangalore, India",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Peacock_on_tree_(52077240794).jpg"
+ },
+ "pyramids": {
+  "file": "File:Pyramids of the Giza Necropolis.jpg",
+  "author": "KennyOMG",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pyramids_of_the_Giza_Necropolis.jpg"
+ },
+ "iceland_volcano": {
+  "file": "File:Eyjafjallajokull-April-17.JPG",
+  "author": "Árni Friðriksson",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Eyjafjallajokull-April-17.JPG"
+ },
+ "great_wall": {
+  "file": "File:The Great Wall of China at Jinshanling-edit.jpg",
+  "author": "Severin.stalder",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Great_Wall_of_China_at_Jinshanling-edit.jpg"
+ },
+ "statue_of_liberty": {
+  "file": "File:Front view of Statue of Liberty (cropped).jpg",
+  "author": "AskALotl",
+  "licence": "CC0",
+  "licence_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Front_view_of_Statue_of_Liberty_(cropped).jpg"
+ },
+ "sydney_opera": {
+  "file": "File:Sydney Opera House 2026.jpg",
+  "author": "BAVhah",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sydney_Opera_House_2026.jpg"
+ },
+ "colosseum": {
+  "file": "File:Colosseo 2020.jpg",
+  "author": "FeaturedPics",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg"
+ },
+ "eiffel_tower": {
+  "file": "File:Tour Eiffel Wikimedia Commons (cropped).jpg",
+  "author": "Benh LIEU SONG",
+  "licence": "Public domain",
+  "licence_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_(cropped).jpg"
+ },
+ "machu_picchu": {
+  "file": "File:Machu Picchu, 2023 (012).jpg",
+  "author": "Draceane",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Machu_Picchu,_2023_(012).jpg"
+ },
+ "taj_mahal": {
+  "file": "File:Taj Mahal (Edited).jpeg",
+  "author": "Yann; edited by Jim Carter",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Taj_Mahal_(Edited).jpeg"
+ },
+ "big_ben": {
+  "file": "File:Elizabeth Tower and the north front of the Palace of Westminster, London.jpg",
+  "author": "Christian David",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Elizabeth_Tower_and_the_north_front_of_the_Palace_of_Westminster,_London.jpg"
+ },
+ "tower_of_pisa": {
+  "file": "File:Italy - Pisa - Leaning Tower.jpg",
+  "author": "Arne Müseler",
+  "licence": "CC BY-SA 3.0 de",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Italy_-_Pisa_-_Leaning_Tower.jpg"
+ },
+ "christ_the_redeemer": {
+  "file": "File:Christ the Redeemer - Cristo Redentor.jpg",
+  "author": "Arne Müseler",
+  "licence": "CC BY-SA 3.0 de",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Christ_the_Redeemer_-_Cristo_Redentor.jpg"
+ },
+ "mount_everest": {
+  "file": "File:Mt. Everest from Gokyo Ri November 5, 2012.jpg",
+  "author": "Rdevany",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mt._Everest_from_Gokyo_Ri_November_5,_2012.jpg"
+ },
+ "mount_fuji": {
+  "file": "File:View of Mount Fuji from Ōwakudani 20211202.jpg",
+  "author": "Suicasmo",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg"
+ },
+ "niagara_falls": {
+  "file": "File:3Falls Niagara.jpg",
+  "author": "Saffron Blaze",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:3Falls_Niagara.jpg"
+ },
+ "grand_canyon": {
+  "file": "File:Canyon River Tree (165872763).jpeg",
+  "author": "Lennart Sikkema",
+  "licence": "CC BY 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Canyon_River_Tree_(165872763).jpeg"
+ },
+ "stonehenge": {
+  "file": "File:Stonehenge2007 07 30.jpg",
+  "author": "garethwiscombe",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Stonehenge2007_07_30.jpg"
+ },
+ "acropolis": {
+  "file": "File:The Parthenon in Athens.jpg",
+  "author": "Steve Swayne",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Parthenon_in_Athens.jpg"
+ },
+ "sagrada_familia": {
+  "file": "File:SF maig 2 cropped.jpg",
+  "author": "Canaan",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:SF_maig_2_cropped.jpg"
+ },
+ "neuschwanstein": {
+  "file": "File:Schloss Neuschwanstein 2013.jpg",
+  "author": "Thomas Wolf, www.foto-tw.de",
+  "licence": "CC BY-SA 3.0 de",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Schloss_Neuschwanstein_2013.jpg"
+ },
+ "st_basils": {
+  "file": "File:Saint Basil's Cathedral in Moscow.jpg",
+  "author": "Tsy1980",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Saint_Basil%27s_Cathedral_in_Moscow.jpg"
+ },
+ "petra": {
+  "file": "File:Al Deir Petra.JPG",
+  "author": "Azurfrog",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Al_Deir_Petra.JPG"
+ },
+ "kilimanjaro": {
+  "file": "File:Kilimanjaro from Amboseli.jpg",
+  "author": "Sergey Pesterev",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kilimanjaro_from_Amboseli.jpg"
+ },
+ "victoria_falls": {
+  "file": "File:Cataratas Victoria, Zambia-Zimbabue, 2018-07-27, DD 04.jpg",
+  "author": "Diego Delso",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cataratas_Victoria,_Zambia-Zimbabue,_2018-07-27,_DD_04.jpg"
+ },
+ "angkor_wat": {
+  "file": "File:Angkor Wat.jpg",
+  "author": "Bjørn Christian Tørrissen",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Angkor_Wat.jpg"
+ },
+ "chichen_itza": {
+  "file": "File:Chichen Itza 3.jpg",
+  "author": "Daniel Schwen",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chichen_Itza_3.jpg"
+ },
+ "moai": {
+  "file": "File:AhuTongariki.JPG",
+  "author": "Ian Sewell",
+  "licence": "CC BY 2.5",
+  "licence_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:AhuTongariki.JPG"
+ },
+ "wawel": {
+  "file": "File:Wawel (4).jpg",
+  "author": "Monika Towiańska",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wawel_(4).jpg"
+ },
+ "burj_khalifa": {
+  "file": "File:Burj Khalifa (16260269606).jpg",
+  "author": "Laika ac",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Burj_Khalifa_(16260269606).jpg"
+ },
+ "uluru": {
+  "file": "File:ULURU.jpg",
+  "author": "Ek2030372672",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:ULURU.jpg"
+ }
+}

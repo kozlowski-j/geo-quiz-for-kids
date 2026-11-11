@@ -1,0 +1,372 @@
+{
+  "animals": {
+    "lion": {
+      "name": "lions",
+      "areas": [
+        "country:Kenya", "country:Tanzania", "country:Uganda", "country:Ethiopia", "country:South Sudan",
+        "country:Sudan", "country:Rwanda", "country:Botswana", "country:South Africa", "country:Namibia",
+        "country:Zimbabwe", "country:Zambia", "country:Mozambique", "country:Angola", "country:Malawi",
+        "country:Eswatini", "country:Democratic Republic of the Congo", "country:Central African Republic",
+        "country:Chad", "country:Cameroon", "country:Nigeria", "country:Benin", "country:Burkina Faso",
+        "country:Niger", "country:Senegal", "country:India"
+      ]
+    },
+    "elephant": {
+      "name": "elephants",
+      "areas": [
+        "country:Kenya", "country:Tanzania", "country:Uganda", "country:Ethiopia", "country:South Sudan",
+        "country:Rwanda", "country:Botswana", "country:South Africa", "country:Namibia", "country:Zimbabwe",
+        "country:Zambia", "country:Mozambique", "country:Angola", "country:Malawi",
+        "country:Democratic Republic of the Congo", "country:Republic of the Congo", "country:Gabon",
+        "country:Equatorial Guinea", "country:Cameroon", "country:Central African Republic", "country:Chad",
+        "country:Nigeria", "country:Niger", "country:Benin", "country:Togo", "country:Ghana",
+        "country:Ivory Coast", "country:Burkina Faso", "country:Mali", "country:Liberia", "country:Guinea",
+        "region:Congo Basin", "country:India", "country:Sri Lanka", "country:Nepal", "country:Bhutan",
+        "country:Bangladesh", "country:Myanmar", "country:Thailand", "country:Laos", "country:Cambodia",
+        "country:Vietnam", "country:Malaysia", "region:Sumatra", "region:Borneo"
+      ]
+    },
+    "giraffe": {
+      "name": "giraffes",
+      "areas": [
+        "country:Kenya", "country:Tanzania", "country:Uganda", "country:Ethiopia", "country:South Sudan",
+        "country:Somalia", "country:Rwanda", "country:Botswana", "country:South Africa", "country:Namibia",
+        "country:Zimbabwe", "country:Zambia", "country:Mozambique", "country:Angola", "country:Malawi",
+        "country:Eswatini", "country:Democratic Republic of the Congo", "country:Central African Republic",
+        "country:Chad", "country:Cameroon", "country:Niger"
+      ]
+    },
+    "zebra": {
+      "name": "zebras",
+      "areas": [
+        "country:Kenya", "country:Tanzania", "country:Uganda", "country:Ethiopia", "country:South Sudan",
+        "country:Rwanda", "country:Botswana", "country:South Africa", "country:Namibia", "country:Zimbabwe",
+        "country:Zambia", "country:Mozambique", "country:Angola", "country:Malawi", "country:Eswatini"
+      ]
+    },
+    "hippo": {
+      "name": "hippos",
+      "areas": [
+        "country:Kenya", "country:Tanzania", "country:Uganda", "country:Ethiopia", "country:South Sudan",
+        "country:Sudan", "country:Somalia", "country:Rwanda", "country:Burundi", "country:Botswana",
+        "country:South Africa", "country:Namibia", "country:Zimbabwe", "country:Zambia", "country:Mozambique",
+        "country:Angola", "country:Malawi", "country:Eswatini", "country:Democratic Republic of the Congo",
+        "country:Republic of the Congo", "country:Gabon", "country:Equatorial Guinea", "country:Cameroon",
+        "country:Central African Republic", "country:Chad", "country:Nigeria", "country:Niger", "country:Benin",
+        "country:Togo", "country:Ghana", "country:Ivory Coast", "country:Burkina Faso", "country:Mali",
+        "country:Senegal", "country:Gambia", "country:Guinea", "country:Guinea-Bissau", "country:Sierra Leone",
+        "country:Liberia", "region:Congo Basin"
+      ]
+    },
+    "gorilla": {
+      "name": "gorillas",
+      "areas": [
+        "country:Democratic Republic of the Congo", "country:Republic of the Congo", "country:Gabon",
+        "country:Equatorial Guinea", "country:Cameroon", "country:Central African Republic", "country:Nigeria",
+        "country:Uganda", "country:Rwanda", "region:Congo Basin"
+      ]
+    },
+    "tiger": {
+      "name": "tigers",
+      "areas": [
+        "country:India", "country:Nepal", "country:Bhutan", "country:Bangladesh", "country:Myanmar",
+        "country:Thailand", "country:Malaysia", "region:Sumatra", "country:China", "country:Russia"
+      ]
+    },
+    "giant_panda": {
+      "name": "giant pandas",
+      "areas": [
+        "country:China"
+      ]
+    },
+    "kangaroo": {
+      "name": "kangaroos",
+      "areas": [
+        "country:Australia", "region:Tasmania"
+      ]
+    },
+    "koala": {
+      "name": "koalas",
+      "areas": [
+        "country:Australia"
+      ]
+    },
+    "polar_bear": {
+      "name": "polar bears",
+      "areas": [
+        "ocean:Arctic Ocean", "country:Greenland", "region:Greenland", "country:Canada", "country:Russia",
+        "region:Alaska", "region:Svalbard", "region:Arctic Archipelago", "region:Franz Josef Land",
+        "region:Novaya Zemlya", "region:Severnaya Zemlya", "region:New Siberian Islands", "sea:Beaufort Sea",
+        "sea:Chukchi Sea", "sea:Laptev Sea", "sea:Kara Sea", "sea:Barents Sea", "sea:Greenland Sea",
+        "sea:Baffin Bay", "sea:Hudson Bay"
+      ]
+    },
+    "penguin": {
+      "name": "penguins",
+      "areas": [
+        "continent:Antarctica", "country:Antarctica", "ocean:Southern Ocean", "sea:Weddell Sea", "sea:Ross Sea",
+        "sea:Scotia Sea", "country:Falkland Islands", "region:Falkland Is.", "country:South Georgia",
+        "region:Tierra del Fuego", "country:Argentina", "country:Chile", "country:South Africa",
+        "country:New Zealand", "region:Tasmania"
+      ]
+    },
+    "camel": {
+      "name": "camels",
+      "areas": [
+        "region:Sahara", "region:Arabian Peninsula", "country:Egypt", "country:Libya", "country:Tunisia",
+        "country:Algeria", "country:Morocco", "country:Western Sahara", "country:Mauritania", "country:Mali",
+        "country:Niger", "country:Chad", "country:Sudan", "country:Eritrea", "country:Djibouti",
+        "country:Somalia", "country:Somaliland", "country:Ethiopia", "country:Saudi Arabia", "country:Yemen",
+        "country:Oman", "country:United Arab Emirates", "country:Qatar", "country:Kuwait", "country:Jordan",
+        "country:Iraq", "country:Syria", "country:Iran", "country:Afghanistan", "country:Pakistan",
+        "region:Thar Desert", "country:Turkmenistan", "country:Uzbekistan", "country:Kazakhstan",
+        "country:Mongolia", "region:Gobi Desert", "region:Taklimakan Desert"
+      ]
+    },
+    "llama": {
+      "name": "llamas",
+      "areas": [
+        "country:Peru", "country:Bolivia", "country:Ecuador", "country:Chile", "country:Argentina",
+        "region:Andes", "region:Altiplano"
+      ]
+    },
+    "jaguar": {
+      "name": "jaguars",
+      "areas": [
+        "region:Amazon Basin", "region:Pantanal", "region:Central America", "country:Brazil", "country:Mexico",
+        "country:Guatemala", "country:Belize", "country:Honduras", "country:Nicaragua", "country:Costa Rica",
+        "country:Panama", "country:Colombia", "country:Venezuela", "country:Guyana", "country:Suriname",
+        "country:Ecuador", "country:Peru", "country:Bolivia", "country:Paraguay"
+      ]
+    },
+    "sloth": {
+      "name": "sloths",
+      "areas": [
+        "region:Amazon Basin", "region:Central America", "country:Brazil", "country:Honduras",
+        "country:Nicaragua", "country:Costa Rica", "country:Panama", "country:Colombia", "country:Venezuela",
+        "country:Guyana", "country:Suriname", "country:Ecuador", "country:Peru", "country:Bolivia"
+      ]
+    },
+    "orangutan": {
+      "name": "orangutans",
+      "areas": [
+        "region:Borneo", "region:Sumatra"
+      ]
+    },
+    "lemur": {
+      "name": "lemurs",
+      "areas": [
+        "region:Madagascar", "country:Madagascar"
+      ]
+    },
+    "kiwi": {
+      "name": "kiwi birds",
+      "areas": [
+        "country:New Zealand", "region:New Zealand", "region:North Island", "region:South Island"
+      ]
+    },
+    "bald_eagle": {
+      "name": "bald eagles",
+      "areas": [
+        "country:United States of America", "country:Canada", "region:Alaska"
+      ]
+    },
+    "reindeer": {
+      "name": "reindeer",
+      "areas": [
+        "country:Norway", "country:Sweden", "country:Finland", "country:Russia", "country:Canada",
+        "country:Greenland", "region:Greenland", "region:Alaska", "region:Lapland", "region:Scandinavia",
+        "region:Siberia", "region:Svalbard", "country:Iceland"
+      ]
+    },
+    "bison": {
+      "name": "American bison",
+      "areas": [
+        "region:Great Plains"
+      ]
+    },
+    "european_bison": {
+      "name": "European bison",
+      "areas": [
+        "country:Poland", "country:Belarus"
+      ]
+    },
+    "cheetah": {
+      "name": "cheetahs",
+      "areas": [
+        "country:Namibia", "country:Botswana", "country:South Africa", "country:Zimbabwe", "country:Zambia",
+        "country:Mozambique", "country:Angola", "country:Kenya", "country:Tanzania", "country:Uganda",
+        "country:Ethiopia", "country:South Sudan", "country:Chad", "country:Niger", "country:Algeria",
+        "country:Iran"
+      ]
+    },
+    "rhino": {
+      "name": "rhinos",
+      "areas": [
+        "country:South Africa", "country:Namibia", "country:Botswana", "country:Zimbabwe", "country:Kenya",
+        "country:Tanzania", "country:Zambia", "country:Eswatini", "country:Uganda", "country:India",
+        "country:Nepal", "region:Sumatra", "region:Java", "region:Borneo"
+      ]
+    },
+    "chimpanzee": {
+      "name": "chimpanzees",
+      "areas": [
+        "country:Democratic Republic of the Congo", "country:Republic of the Congo", "country:Gabon",
+        "country:Equatorial Guinea", "country:Cameroon", "country:Central African Republic", "country:Nigeria",
+        "country:Uganda", "country:Tanzania", "country:Rwanda", "country:Burundi", "country:South Sudan",
+        "country:Guinea", "country:Guinea-Bissau", "country:Sierra Leone", "country:Liberia",
+        "country:Ivory Coast", "country:Ghana", "country:Senegal", "country:Mali", "region:Congo Basin"
+      ]
+    },
+    "komodo_dragon": {
+      "name": "Komodo dragons",
+      "areas": [
+        "country:Indonesia", "region:Lesser Sunda Islands"
+      ]
+    },
+    "moose": {
+      "name": "moose",
+      "areas": [
+        "country:Canada", "country:United States of America", "country:Russia", "country:Sweden",
+        "country:Norway", "country:Finland", "country:Estonia", "country:Latvia", "country:Lithuania",
+        "country:Poland", "country:Belarus", "country:Ukraine", "country:Kazakhstan", "country:Mongolia",
+        "country:China", "region:Alaska"
+      ]
+    },
+    "walrus": {
+      "name": "walruses",
+      "areas": [
+        "ocean:Arctic Ocean", "country:Greenland", "region:Alaska", "region:Svalbard", "country:Russia",
+        "country:Canada", "sea:Bering Sea", "sea:Hudson Bay"
+      ]
+    },
+    "ostrich": {
+      "name": "ostriches",
+      "areas": [
+        "country:Kenya", "country:Tanzania", "country:Ethiopia", "country:Somalia", "country:Somaliland",
+        "country:South Sudan", "country:Sudan", "country:Chad", "country:Niger", "country:Mali",
+        "country:Mauritania", "country:Senegal", "country:Burkina Faso", "country:Nigeria", "country:Cameroon",
+        "country:Central African Republic", "country:Uganda", "country:Namibia", "country:Botswana",
+        "country:South Africa", "country:Zimbabwe", "country:Zambia", "country:Angola", "country:Mozambique",
+        "country:Eritrea", "country:Djibouti"
+      ]
+    },
+    "toucan": {
+      "name": "toucans",
+      "areas": [
+        "country:Brazil", "country:Colombia", "country:Venezuela", "country:Guyana", "country:Suriname",
+        "country:Ecuador", "country:Peru", "country:Bolivia", "country:Paraguay", "country:Argentina",
+        "country:Panama", "country:Costa Rica", "country:Nicaragua", "country:Honduras", "country:Guatemala",
+        "country:Belize", "country:Mexico", "region:Amazon Basin"
+      ]
+    },
+    "anaconda": {
+      "name": "anacondas",
+      "areas": [
+        "country:Brazil", "country:Colombia", "country:Venezuela", "country:Guyana", "country:Suriname",
+        "country:Ecuador", "country:Peru", "country:Bolivia", "country:Paraguay", "country:Trinidad and Tobago",
+        "region:Amazon Basin"
+      ]
+    },
+    "meerkat": {
+      "name": "meerkats",
+      "areas": [
+        "country:Botswana", "country:Namibia", "country:South Africa", "country:Angola",
+        "region:Kalahari Desert"
+      ]
+    },
+    "snow_leopard": {
+      "name": "snow leopards",
+      "areas": [
+        "country:China", "country:Mongolia", "country:Nepal", "country:India", "country:Bhutan",
+        "country:Pakistan", "country:Afghanistan", "country:Tajikistan", "country:Kyrgyzstan",
+        "country:Kazakhstan", "country:Uzbekistan", "country:Russia", "region:Himalayas",
+        "region:Plateau of Tibet"
+      ]
+    },
+    "red_panda": {
+      "name": "red pandas",
+      "areas": [
+        "country:Nepal", "country:Bhutan", "country:India", "country:Myanmar", "country:China",
+        "region:Himalayas"
+      ]
+    },
+    "platypus": {
+      "name": "platypuses",
+      "areas": [
+        "country:Australia"
+      ]
+    },
+    "tasmanian_devil": {
+      "name": "Tasmanian devils",
+      "areas": [
+        "region:Tasmania"
+      ]
+    },
+    "grizzly_bear": {
+      "name": "grizzly bears",
+      "areas": [
+        "country:Canada", "country:United States of America", "region:Alaska", "region:Rocky Mountains"
+      ]
+    },
+    "raccoon": {
+      "name": "raccoons",
+      "areas": [
+        "country:United States of America", "country:Canada", "country:Mexico", "country:Guatemala",
+        "country:Belize", "country:Honduras", "country:El Salvador", "country:Nicaragua", "country:Costa Rica",
+        "country:Panama"
+      ]
+    },
+    "arctic_fox": {
+      "name": "arctic foxes",
+      "areas": [
+        "country:Greenland", "country:Iceland", "country:Norway", "country:Sweden", "country:Finland",
+        "country:Russia", "country:Canada", "region:Svalbard", "region:Alaska", "region:Arctic Archipelago",
+        "ocean:Arctic Ocean"
+      ]
+    },
+    "puffin": {
+      "name": "puffins",
+      "areas": [
+        "country:Iceland", "country:Norway", "country:Faroe Islands", "country:United Kingdom",
+        "country:Ireland", "country:Greenland", "country:Canada", "region:Svalbard", "sea:Norwegian Sea"
+      ]
+    },
+    "capybara": {
+      "name": "capybaras",
+      "areas": [
+        "country:Brazil", "country:Venezuela", "country:Colombia", "country:Guyana", "country:Suriname",
+        "country:Ecuador", "country:Peru", "country:Bolivia", "country:Paraguay", "country:Uruguay",
+        "country:Argentina", "region:Amazon Basin"
+      ]
+    },
+    "condor": {
+      "name": "condors",
+      "areas": [
+        "country:Colombia", "country:Ecuador", "country:Peru", "country:Bolivia", "country:Chile",
+        "country:Argentina", "country:Venezuela", "region:Andes"
+      ]
+    },
+    "okapi": {
+      "name": "okapis",
+      "areas": [
+        "country:Democratic Republic of the Congo"
+      ]
+    },
+    "yak": {
+      "name": "yaks",
+      "areas": [
+        "country:China", "country:India", "country:Nepal", "country:Bhutan", "country:Mongolia",
+        "country:Pakistan", "country:Tajikistan", "country:Kyrgyzstan", "country:Afghanistan",
+        "region:Plateau of Tibet", "region:Himalayas"
+      ]
+    },
+    "peacock": {
+      "name": "peacocks",
+      "areas": [
+        "country:India", "country:Sri Lanka", "country:Pakistan", "country:Nepal", "country:Bangladesh",
+        "country:Bhutan"
+      ]
+    }
+  }
+}
